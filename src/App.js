@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container, Pagination, TextField, Stack } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import CarsList from "./components/carslist/CarsList";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -95,14 +96,13 @@ function App() {
               />
             )}
             {currentPageCars.length === 0 && <div>{searchResultsMessage}</div>}
-            {currentPageCars.map((car) => (
-              <span key={car.id}>{car.car}</span>
-            ))}
           </Stack>
         </Container>
       )}
+      <CarsList currentPageCars={currentPageCars} />
     </div>
   );
 }
 
 export default App;
+//<span key={car.id}>{car.car}</span>
