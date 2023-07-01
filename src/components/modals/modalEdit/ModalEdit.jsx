@@ -43,22 +43,24 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
   };
 
   const handlePriceChange = (event) => {
-    setPrice(event.target.value.replace(/[^\d.]/g, ""));
+    const inputValue = event.target.value;
+    // Удаление всех символов, кроме цифр
+    const numericValue = inputValue.replace(/\D/g, "");
+
+    if (numericValue.length > 4) {
+      const integerPart = numericValue.slice(0, 4);
+      const decimalPart = numericValue.slice(4, 6);
+      const formattedValue = `${integerPart}.${decimalPart}`;
+      setPrice(formattedValue);
+    } else {
+      setPrice(numericValue);
+    }
+    /* setPrice(event.target.value.replace(/[^\d.]/g, "")); */
   };
 
   const handleAvailabilityChange = (event) => {
     setAvailability(event.target.value === "available");
   };
-
-  /* const updateCarData = (carId, newData) => {
-    const updatedCars = cars.map((car) => {
-      if (car.id === carId) {
-        return { ...car, ...newData };
-      }
-      return car;
-    });
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
-  }; */
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -127,10 +129,13 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
           <div className={s.formGroup}>
             <label htmlFor="price">Price:</label>
             <input
-              type="text"
+              type="number"
+              /* type="text" */
               id="price"
-              value={`$${price}`}
+              value={price}
+              /* value={`$${price}`} */
               onChange={handlePriceChange}
+              required
             />
           </div>
           <div className={s.formGroup}>

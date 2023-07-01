@@ -123,33 +123,42 @@ function App() {
       ) : error ? (
         <div>Error: {error}</div>
       ) : (
-        <Container
-          sx={{ marginTop: 3 }}
-          maxWidth="sm"
-        >
-          <TextField
-            fullWidth
-            label="search"
-            value={searchWord}
-            onChange={(event) => setSearchWord(event.target.value.trim())}
-          />
-
-          <Stack spacing={2}>
-            {!!pageQty && (
-              <Pagination
-                count={pageQty}
-                page={currentPageNumber}
-                onChange={(_, pageNum) => setCurrentPageNumber(pageNum)}
-                sx={{ marginY: 2, marginX: "auto" }}
-              />
-            )}
-            {currentPageCars.length === 0 && <div>{searchResultsMessage}</div>}
-          </Stack>
-        </Container>
+        <div className="container">
+          <div className="header">
+            <div className="header__body">
+              <div className="search">
+                <TextField
+                  fullWidth
+                  label="search"
+                  value={searchWord}
+                  onChange={(event) => setSearchWord(event.target.value.trim())}
+                />
+              </div>
+              <div className="pagination">
+                <Stack spacing={2}>
+                  {!!pageQty && (
+                    <Pagination
+                      count={pageQty}
+                      page={currentPageNumber}
+                      onChange={(_, pageNum) => setCurrentPageNumber(pageNum)}
+                      sx={{ marginY: 2, marginX: "auto" }}
+                    />
+                  )}
+                  {currentPageCars.length === 0 && (
+                    <div className="search__message">
+                      {searchResultsMessage}
+                    </div>
+                  )}
+                </Stack>
+              </div>
+              <div className="addButton">
+                <button onClick={openModalAdd}>Add car</button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
-      <div className="addButton">
-        <button onClick={openModalAdd}>Add car</button>
-      </div>
+
       <div>
         {isOpenModalAdd && (
           <ModalAdd
