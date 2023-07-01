@@ -1,30 +1,22 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import s from "./modalAdd.module.css";
 
-const ModalAdd = ({ isOpen, onClose }) => {
-  const cars = JSON.parse(localStorage.getItem("cars")) || [];
+const ModalAdd = ({ isOpen, onClose, addNewCar }) => {
+  const [cars, setCars] = useState(
+    JSON.parse(localStorage.getItem("cars")) || []
+  );
   const formRef = useRef(null);
-
-  const updateCarData = (carId, newData) => {
-    const updatedCars = cars.map((car) => {
-      if (car.id === carId) {
-        return { ...car, ...newData };
-      }
-      return car;
-    });
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const createdId = ++cars[cars.length - 1].id;
+    const createdId = cars.length > 0 ? cars[cars.length - 1].id + 1 : 1;
     const formData = new FormData(formRef.current);
-    //const yearValue = formData.get("car_model_year");
+
     const year = parseInt(formData.get("car_model_year"));
-    //const vinValue = formData.get("car_vin");
+
     const vin = formData.get("car_vin").toUpperCase();
-    //const priceValue = formData.get("price");
+
     const price = parseFloat(formData.get("price").replace(/[^\d.]/g, ""));
     const formattedPrice = (price / 100).toFixed(2);
     const limitedPrice =
@@ -32,15 +24,15 @@ const ModalAdd = ({ isOpen, onClose }) => {
       formattedPrice.substring(0, 4) +
       "." +
       formattedPrice.substring(4, 6);
-    //const companyValue = formData.get("car");
+
     const company =
       formData.get("car").charAt(0).toUpperCase() +
       formData.get("car").slice(1);
-    //const modelValue = formData.get("car_model");
+
     const model =
       formData.get("car_model").charAt(0).toUpperCase() +
       formData.get("car_model").slice(1);
-    //const colorValue = formData.get("car_color");
+
     const color =
       formData.get("car_color").charAt(0).toUpperCase() +
       formData.get("car_color").slice(1);
@@ -54,8 +46,8 @@ const ModalAdd = ({ isOpen, onClose }) => {
     newCar.car_color = color;
     newCar.availability = newCar.availability === "true";
     console.log("newCar", newCar);
-    cars.push(newCar);
-    localStorage.setItem("cars", JSON.stringify(cars));
+
+    addNewCar(newCar);
     onClose();
   };
 

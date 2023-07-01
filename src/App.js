@@ -5,7 +5,7 @@ import { Container, Pagination, TextField, Stack } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CarsList from "./components/carslist/CarsList";
-import AddCarButton from "./components/addCarButton/AddCarButton";
+import ModalAdd from "./components/modals/modalAdd/ModalAdd";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -19,7 +19,6 @@ function App() {
 
   async function fetchCars() {
     try {
-      alert("query");
       const res = await axios.get("https://myfakeapi.com/api/cars/");
       localStorage.setItem("cars", JSON.stringify(res.data.cars));
       setCars(res.data.cars);
@@ -30,6 +29,18 @@ function App() {
       setIsLoading(false);
     }
   }
+  const addNewCar = (newCar) => {
+    // Добавьте новый элемент в массив cars
+    const updatedCars = [...cars, newCar];
+    setCars(updatedCars);
+  };
+
+  const handleStorageChange = (event) => {
+    if (event.key === "cars") {
+      const updatedCars = JSON.parse(event.newValue) || [];
+      setCars(updatedCars);
+    }
+  };
 
   useEffect(() => {
     const storage = localStorage.getItem("cars");
@@ -67,6 +78,23 @@ function App() {
     );
   }, [currentPageNumber, cars, searchWord]);
 
+  const [isOpenModalAdd, setIsOpenModalAdd] = useState(false);
+  const openModalAdd = () => {
+    setIsOpenModalAdd(true);
+  };
+  const closeModalAdd = () => {
+    setIsOpenModalAdd(false);
+  };
+  // Добавляем слушателя события storage при монтировании компонента
+  useEffect(() => {
+    window.addEventListener("storage", handleStorageChange);
+
+    // Очищаем слушателя события storage при размонтировании компонента
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   return (
     <div className="App">
       {isLoading ? (
@@ -102,7 +130,16 @@ function App() {
         </Container>
       )}
       <div className="addButton">
-        <AddCarButton />
+        <button onClick={openModalAdd}>Add car</button>
+      </div>
+      <div>
+        {isOpenModalAdd && (
+          <ModalAdd
+            isOpen={isOpenModalAdd}
+            onClose={closeModalAdd}
+            addNewCar={addNewCar}
+          />
+        )}
       </div>
 
       <CarsList currentPageCars={currentPageCars} />
