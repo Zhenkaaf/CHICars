@@ -3,7 +3,7 @@ import s from "./carsList.module.css";
 
 const CarsList = ({ currentPageCars }) => {
   return (
-    <div>
+    <div className={s.table__container}>
       <div
         className={`${s.table} ${s.table__sticky_head} ${s.table__sticky_foot} ${s.table__theme_default} ${s.table__striped_rows}`}
       >

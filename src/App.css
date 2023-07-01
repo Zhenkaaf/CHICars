@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  overflow-x: auto;
 }
 
 .App-logo {
@@ -27,4 +28,9 @@
 
 .car-icon {
   margin-top: -32px;
+}
+.addButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }

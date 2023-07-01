@@ -65,7 +65,7 @@ const Select = ({ carId }) => {
           className={s.option}
           value=""
         >
-          Choose an action
+          Actions
         </option>
         <option
           className={s.option}

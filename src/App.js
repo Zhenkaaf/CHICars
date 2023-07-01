@@ -5,6 +5,7 @@ import { Container, Pagination, TextField, Stack } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CarsList from "./components/carslist/CarsList";
+import AddCarButton from "./components/addCarButton/AddCarButton";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -86,6 +87,7 @@ function App() {
             value={searchWord}
             onChange={(event) => setSearchWord(event.target.value.trim())}
           />
+
           <Stack spacing={2}>
             {!!pageQty && (
               <Pagination
@@ -99,10 +101,13 @@ function App() {
           </Stack>
         </Container>
       )}
+      <div className="addButton">
+        <AddCarButton />
+      </div>
+
       <CarsList currentPageCars={currentPageCars} />
     </div>
   );
 }
 
 export default App;
-//<span key={car.id}>{car.car}</span>
