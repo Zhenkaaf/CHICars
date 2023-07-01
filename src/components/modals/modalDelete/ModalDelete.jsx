@@ -2,11 +2,12 @@ import s from "./modalDelete.module.css";
 import React from "react";
 import ReactDOM from "react-dom";
 
-const ModalDelete = ({ isOpen, onClose, carId /* onDelete */ }) => {
-  const cars = JSON.parse(localStorage.getItem("cars"));
+const ModalDelete = ({ isOpen, onClose, carId, cars, updateCars }) => {
+  //const cars = JSON.parse(localStorage.getItem("cars"));
 
   const deleteCar = (carId) => {
     const updatedCars = cars.filter((car) => car.id !== carId);
+    updateCars(updatedCars);
     localStorage.setItem("cars", JSON.stringify(updatedCars));
   };
 

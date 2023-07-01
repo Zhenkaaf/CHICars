@@ -1,7 +1,7 @@
 import Select from "../select/Select";
 import s from "./carsList.module.css";
 
-const CarsList = ({ currentPageCars }) => {
+const CarsList = ({ currentPageCars, updateCarData, cars, updateCars }) => {
   return (
     <div className={s.table__container}>
       <div
@@ -36,7 +36,12 @@ const CarsList = ({ currentPageCars }) => {
                 {car.availability ? "Available" : "Not Available"}
               </div>
               <div className={s.table__cell}>
-                <Select carId={car.id} />
+                <Select
+                  carId={car.id}
+                  updateCarData={updateCarData}
+                  cars={cars}
+                  updateCars={updateCars}
+                />
               </div>
             </div>
           ))}

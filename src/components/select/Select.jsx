@@ -3,7 +3,7 @@ import ModalDelete from "../modals/modalDelete/ModalDelete";
 import s from "./select.module.css";
 import ModalEdit from "../modals/modalEdit/ModalEdit";
 
-const Select = ({ carId }) => {
+const Select = ({ carId, updateCarData, cars, updateCars }) => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [selected, setSelected] = useState("");
@@ -44,6 +44,7 @@ const Select = ({ carId }) => {
             isOpen={isOpenModalEdit}
             onClose={closeModalEdit}
             carId={carId}
+            updateCarData={updateCarData}
           />
         )}
       </div>
@@ -53,6 +54,8 @@ const Select = ({ carId }) => {
             isOpen={isOpenModalDelete}
             onClose={closeModalDelete}
             carId={carId}
+            cars={cars}
+            updateCars={updateCars}
           />
         )}
       </div>

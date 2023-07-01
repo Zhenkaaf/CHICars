@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import s from "./modalEdit.module.css";
 
-const ModalEdit = ({ isOpen, onClose, carId }) => {
+const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
   const cars = JSON.parse(localStorage.getItem("cars")) || [];
 
   /* const selectedCar = cars.find((car) => car.id === carId); */
@@ -50,7 +50,7 @@ const ModalEdit = ({ isOpen, onClose, carId }) => {
     setAvailability(event.target.value === "available");
   };
 
-  const updateCarData = (carId, newData) => {
+  /* const updateCarData = (carId, newData) => {
     const updatedCars = cars.map((car) => {
       if (car.id === carId) {
         return { ...car, ...newData };
@@ -58,7 +58,7 @@ const ModalEdit = ({ isOpen, onClose, carId }) => {
       return car;
     });
     localStorage.setItem("cars", JSON.stringify(updatedCars));
-  };
+  }; */
 
   const handleSubmit = (event) => {
     event.preventDefault();

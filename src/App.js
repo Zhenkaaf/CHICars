@@ -35,6 +35,11 @@ function App() {
     setCars(updatedCars);
   };
 
+  //ModalDelete
+  const updateCars = (updatedCars) => {
+    setCars(updatedCars);
+  };
+
   const handleStorageChange = (event) => {
     if (event.key === "cars") {
       const updatedCars = JSON.parse(event.newValue) || [];
@@ -85,6 +90,19 @@ function App() {
   const closeModalAdd = () => {
     setIsOpenModalAdd(false);
   };
+
+  //Modal Edit
+  const updateCarData = (carId, newData) => {
+    const updatedCars = cars.map((car) => {
+      if (car.id === carId) {
+        return { ...car, ...newData };
+      }
+      return car;
+    });
+    setCars(updatedCars);
+    localStorage.setItem("cars", JSON.stringify(updatedCars));
+  };
+
   // Добавляем слушателя события storage при монтировании компонента
   useEffect(() => {
     window.addEventListener("storage", handleStorageChange);
@@ -142,7 +160,12 @@ function App() {
         )}
       </div>
 
-      <CarsList currentPageCars={currentPageCars} />
+      <CarsList
+        currentPageCars={currentPageCars}
+        updateCarData={updateCarData}
+        cars={cars}
+        updateCars={updateCars}
+      />
     </div>
   );
 }
