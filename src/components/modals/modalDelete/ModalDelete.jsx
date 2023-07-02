@@ -2,9 +2,16 @@ import s from "./modalDelete.module.css";
 import React from "react";
 import ReactDOM from "react-dom";
 
-const ModalDelete = ({ isOpen, onClose, carId, cars, updateCars }) => {
-  //const cars = JSON.parse(localStorage.getItem("cars"));
-
+const ModalDelete = ({
+  isOpen,
+  onClose,
+  carId,
+  cars,
+  updateCars,
+  carModel,
+  carYear,
+  carVin,
+}) => {
   const deleteCar = (carId) => {
     const updatedCars = cars.filter((car) => car.id !== carId);
     updateCars(updatedCars);
@@ -25,8 +32,16 @@ const ModalDelete = ({ isOpen, onClose, carId, cars, updateCars }) => {
       <div className={s.modal}>
         <div className={s.modal__header}>
           <h2>Delete this car?</h2>
-          <h3>carId: {carId}</h3>
         </div>
+        <p>
+          Model: <b>{carModel}</b>.
+        </p>
+        <p>
+          VIN: <b>{carVin}</b>.
+        </p>
+        <p>
+          Year: <b>{carYear}</b>.
+        </p>
         <div className={s.modal__footer}>
           <button
             className={s.modal__ok}

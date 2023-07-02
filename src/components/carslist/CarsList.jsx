@@ -38,6 +38,9 @@ const CarsList = ({ currentPageCars, updateCarData, cars, updateCars }) => {
               <div className={s.table__cell}>
                 <Select
                   carId={car.id}
+                  carModel={car.car_model}
+                  carYear={car.car_model_year}
+                  carVin={car.car_vin}
                   updateCarData={updateCarData}
                   cars={cars}
                   updateCars={updateCars}

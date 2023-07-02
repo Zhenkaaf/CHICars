@@ -6,9 +6,6 @@
 .App-link {
   color: #61dafb;
 }
-.search__message {
-  padding-top: 20px;
-}
 
 .loading-container {
   display: flex;
@@ -21,7 +18,7 @@
 .header {
   position: fixed;
   z-index: 2;
-  background-color: yellow;
+  background-color: #61dafb;
   width: 100%;
   min-height: 64px;
 }
@@ -32,10 +29,6 @@
 .search {
   flex: 1;
   padding-top: 4px;
-}
-.pagination {
-  flex: 1;
-  min-width: 360px;
 }
 
 .addButton {
@@ -48,21 +41,23 @@
   height: 100%;
   border-radius: 5px;
   background-color: transparent;
-  /* border-width: 1px; */
-  border: 1px solid rgb(182, 180, 180);
+
+  border: 1px solid rgb(158, 154, 154);
 }
 .addButton button:hover {
-  /* border-width: 1px; */
   border: 1px solid rgb(0, 0, 0);
 }
 
 .car-icon {
   margin-top: -32px;
 }
+.error__message {
+  margin-top: 100px;
+  color: red;
+}
 
 @media (max-width: 1024px) {
   .container {
-    background-color: rgb(255, 0, 0);
     width: 100%;
     position: fixed;
     z-index: 1;
@@ -73,7 +68,7 @@
   .header {
     position: static;
     z-index: 2;
-    background-color: yellow;
+    background-color: #61dafb;
     width: auto;
   }
   .header__body {
@@ -97,8 +92,5 @@
     width: auto;
     height: auto;
     padding: 5px;
-  }
-  .search__message {
-    padding: 5px 0px;
   }
 }

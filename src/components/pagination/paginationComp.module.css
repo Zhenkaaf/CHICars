@@ -1,0 +1,13 @@
+.pagination {
+  flex: 1;
+  min-width: 360px;
+  min-height: 64px;
+}
+.search__message {
+  padding-top: 20px;
+}
+@media (max-width: 1024px) {
+  .search__message {
+    padding: 5px 0px;
+  }
+}

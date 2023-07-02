@@ -1,10 +1,8 @@
+import s from "./modalEdit.module.css";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import s from "./modalEdit.module.css";
 
-const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
-  const cars = JSON.parse(localStorage.getItem("cars")) || [];
-
+const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
   /* const selectedCar = cars.find((car) => car.id === carId); */
   const binarySearch = (arr, target) => {
     let left = 0;
@@ -44,9 +42,8 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
 
   const handlePriceChange = (event) => {
     const inputValue = event.target.value;
-    // Удаление всех символов, кроме цифр
     const numericValue = inputValue.replace(/\D/g, "");
-
+    console.log(typeof numericValue);
     if (numericValue.length > 4) {
       const integerPart = numericValue.slice(0, 4);
       const decimalPart = numericValue.slice(4, 6);
@@ -55,7 +52,6 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
     } else {
       setPrice(numericValue);
     }
-    /* setPrice(event.target.value.replace(/[^\d.]/g, "")); */
   };
 
   const handleAvailabilityChange = (event) => {
@@ -130,10 +126,8 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData }) => {
             <label htmlFor="price">Price:</label>
             <input
               type="number"
-              /* type="text" */
               id="price"
               value={price}
-              /* value={`$${price}`} */
               onChange={handlePriceChange}
               required
             />

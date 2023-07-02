@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import axios from "axios";
-import { Container, Pagination, TextField, Stack } from "@mui/material";
+import { fetchCars } from "./api/api";
+import { TextField } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CarsList from "./components/carslist/CarsList";
 import ModalAdd from "./components/modals/modalAdd/ModalAdd";
+import PaginationComp from "./components/pagination/PaginationComp";
 
 function App() {
   const [cars, setCars] = useState([]);
@@ -16,30 +17,21 @@ function App() {
   const [currentPageCars, setCurrentPageCars] = useState([]);
   const [error, setError] = useState(null);
   const [searchResultsMessage, setSearchResultsMessage] = useState(null);
+  const [isOpenModalAdd, setIsOpenModalAdd] = useState(false);
 
-  async function fetchCars() {
+  //fetchDataAPI
+  async function fetchData() {
     try {
-      const res = await axios.get("https://myfakeapi.com/api/cars/");
-      localStorage.setItem("cars", JSON.stringify(res.data.cars));
-      setCars(res.data.cars);
+      const carsData = await fetchCars();
+      setCars(carsData);
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
-      setError("An error occurred while loading data. Please try again later.");
+      setError(error.message);
       setIsLoading(false);
     }
   }
-  const addNewCar = (newCar) => {
-    // Добавьте новый элемент в массив cars
-    const updatedCars = [...cars, newCar];
-    setCars(updatedCars);
-  };
 
-  //ModalDelete
-  const updateCars = (updatedCars) => {
-    setCars(updatedCars);
-  };
-
+  //LocalStorageEventListener
   const handleStorageChange = (event) => {
     if (event.key === "cars") {
       const updatedCars = JSON.parse(event.newValue) || [];
@@ -50,48 +42,37 @@ function App() {
   useEffect(() => {
     const storage = localStorage.getItem("cars");
     if (!storage) {
-      fetchCars();
+      fetchData();
     } else {
       setCars(JSON.parse(storage));
       setIsLoading(false);
     }
+
+    // AddLocalStorageEventListener
+    window.addEventListener("storage", handleStorageChange);
+    // ClearLocalStorageEventListener
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
-  useEffect(() => {
-    const filteredCars = searchWord
-      ? cars.filter((car) =>
-          car.car.toLowerCase().includes(searchWord.toLowerCase())
-        )
-      : cars;
+  /*   useEffect(() => {
+   
+  }, []); */
 
-    setPageQty(
-      filteredCars.length > 0 ? Math.ceil(filteredCars.length / 100) : 0
-    );
-
-    if (currentPageNumber > Math.ceil(filteredCars.length / 100)) {
-      setCurrentPageNumber(1);
-    }
-
-    const start = (currentPageNumber - 1) * 100;
-    const end = currentPageNumber * 100;
-    setCurrentPageCars(filteredCars.slice(start, end));
-
-    setSearchResultsMessage(
-      filteredCars.length === 0 && searchWord !== ""
-        ? "Nothing was found according to your request."
-        : ""
-    );
-  }, [currentPageNumber, cars, searchWord]);
-
-  const [isOpenModalAdd, setIsOpenModalAdd] = useState(false);
+  //Modal Add Car
   const openModalAdd = () => {
     setIsOpenModalAdd(true);
   };
   const closeModalAdd = () => {
     setIsOpenModalAdd(false);
   };
+  const addNewCar = (newCar) => {
+    const updatedCars = [...cars, newCar];
+    setCars(updatedCars);
+  };
 
-  //Modal Edit
+  //Modal Edit Car
   const updateCarData = (carId, newData) => {
     const updatedCars = cars.map((car) => {
       if (car.id === carId) {
@@ -103,15 +84,10 @@ function App() {
     localStorage.setItem("cars", JSON.stringify(updatedCars));
   };
 
-  // Добавляем слушателя события storage при монтировании компонента
-  useEffect(() => {
-    window.addEventListener("storage", handleStorageChange);
-
-    // Очищаем слушателя события storage при размонтировании компонента
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  //Modal Delete Car
+  const updateCars = (updatedCars) => {
+    setCars(updatedCars);
+  };
 
   return (
     <div className="App">
@@ -121,60 +97,59 @@ function App() {
           <DirectionsCarIcon className="car-icon" />
         </div>
       ) : error ? (
-        <div>Error: {error}</div>
+        <p className="error__message">Error: {error}</p>
       ) : (
-        <div className="container">
-          <div className="header">
-            <div className="header__body">
-              <div className="search">
-                <TextField
-                  fullWidth
-                  label="search"
-                  value={searchWord}
-                  onChange={(event) => setSearchWord(event.target.value.trim())}
+        <div>
+          <div className="container">
+            <div className="header">
+              <div className="header__body">
+                <div className="search">
+                  <TextField
+                    fullWidth
+                    label="search"
+                    value={searchWord}
+                    onChange={(event) =>
+                      setSearchWord(event.target.value.trim())
+                    }
+                  />
+                </div>
+                <PaginationComp
+                  pageQty={pageQty}
+                  currentPageNumber={currentPageNumber}
+                  setCurrentPageNumber={setCurrentPageNumber}
+                  currentPageCars={currentPageCars}
+                  searchResultsMessage={searchResultsMessage}
+                  cars={cars}
+                  searchWord={searchWord}
+                  setPageQty={setPageQty}
+                  setCurrentPageCars={setCurrentPageCars}
+                  setSearchResultsMessage={setSearchResultsMessage}
                 />
-              </div>
-              <div className="pagination">
-                <Stack spacing={2}>
-                  {!!pageQty && (
-                    <Pagination
-                      count={pageQty}
-                      page={currentPageNumber}
-                      onChange={(_, pageNum) => setCurrentPageNumber(pageNum)}
-                      sx={{ marginY: 2, marginX: "auto" }}
-                    />
-                  )}
-                  {currentPageCars.length === 0 && (
-                    <div className="search__message">
-                      {searchResultsMessage}
-                    </div>
-                  )}
-                </Stack>
-              </div>
-              <div className="addButton">
-                <button onClick={openModalAdd}>Add car</button>
+                <div className="addButton">
+                  <button onClick={openModalAdd}>Add car</button>
+                </div>
               </div>
             </div>
+          </div>
+          <div>
+            <CarsList
+              currentPageCars={currentPageCars}
+              updateCarData={updateCarData}
+              cars={cars}
+              updateCars={updateCars}
+            />
           </div>
         </div>
       )}
 
-      <div>
-        {isOpenModalAdd && (
-          <ModalAdd
-            isOpen={isOpenModalAdd}
-            onClose={closeModalAdd}
-            addNewCar={addNewCar}
-          />
-        )}
-      </div>
-
-      <CarsList
-        currentPageCars={currentPageCars}
-        updateCarData={updateCarData}
-        cars={cars}
-        updateCars={updateCars}
-      />
+      {isOpenModalAdd && (
+        <ModalAdd
+          isOpen={isOpenModalAdd}
+          onClose={closeModalAdd}
+          addNewCar={addNewCar}
+          cars={cars}
+        />
+      )}
     </div>
   );
 }

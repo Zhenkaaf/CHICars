@@ -1,11 +1,8 @@
-import React, { useRef, useState } from "react";
-import ReactDOM from "react-dom";
 import s from "./modalAdd.module.css";
+import React, { useRef } from "react";
+import ReactDOM from "react-dom";
 
-const ModalAdd = ({ isOpen, onClose, addNewCar }) => {
-  const [cars, setCars] = useState(
-    JSON.parse(localStorage.getItem("cars")) || []
-  );
+const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
   const formRef = useRef(null);
 
   const handleSubmit = (event) => {
@@ -18,12 +15,19 @@ const ModalAdd = ({ isOpen, onClose, addNewCar }) => {
     const vin = formData.get("car_vin").toUpperCase();
 
     const price = parseFloat(formData.get("price").replace(/[^\d.]/g, ""));
-    const formattedPrice = (price / 100).toFixed(2);
-    const limitedPrice =
-      "$" +
-      formattedPrice.substring(0, 4) +
-      "." +
-      formattedPrice.substring(4, 6);
+    const priceStr = price.toString();
+    const formattedPrice =
+      priceStr.length > 4
+        ? `$${priceStr.slice(0, 4)}.${priceStr.slice(4, 6)}`
+        : `$${priceStr}`;
+    /*  let formattedPrice = "";
+    if (priceStr.length > 4) {
+      const integerPart = priceStr.slice(0, 4);
+      const decimalPart = priceStr.slice(4, 6);
+      formattedPrice = `$${integerPart}.${decimalPart}`;
+    } else {
+      formattedPrice = `$${priceStr}`;
+    } */
 
     const company =
       formData.get("car").charAt(0).toUpperCase() +
@@ -40,13 +44,11 @@ const ModalAdd = ({ isOpen, onClose, addNewCar }) => {
     newCar.id = createdId;
     newCar.car_model_year = year;
     newCar.car_vin = vin;
-    newCar.price = limitedPrice;
+    newCar.price = formattedPrice;
     newCar.car = company;
     newCar.car_model = model;
     newCar.car_color = color;
     newCar.availability = newCar.availability === "true";
-    console.log("newCar", newCar);
-
     addNewCar(newCar);
     onClose();
   };

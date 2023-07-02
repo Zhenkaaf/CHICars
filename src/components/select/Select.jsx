@@ -1,9 +1,17 @@
+import s from "./select.module.css";
 import { useState } from "react";
 import ModalDelete from "../modals/modalDelete/ModalDelete";
-import s from "./select.module.css";
 import ModalEdit from "../modals/modalEdit/ModalEdit";
 
-const Select = ({ carId, updateCarData, cars, updateCars }) => {
+const Select = ({
+  carId,
+  updateCarData,
+  cars,
+  updateCars,
+  carModel,
+  carYear,
+  carVin,
+}) => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [selected, setSelected] = useState("");
@@ -44,6 +52,7 @@ const Select = ({ carId, updateCarData, cars, updateCars }) => {
             isOpen={isOpenModalEdit}
             onClose={closeModalEdit}
             carId={carId}
+            cars={cars}
             updateCarData={updateCarData}
           />
         )}
@@ -56,6 +65,9 @@ const Select = ({ carId, updateCarData, cars, updateCars }) => {
             carId={carId}
             cars={cars}
             updateCars={updateCars}
+            carModel={carModel}
+            carYear={carYear}
+            carVin={carVin}
           />
         )}
       </div>
