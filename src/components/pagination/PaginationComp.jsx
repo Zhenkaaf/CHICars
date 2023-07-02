@@ -14,10 +14,29 @@ const PaginationComp = ({
   setCurrentPageCars,
   setSearchResultsMessage,
 }) => {
+  const searchProperties = ["car", "car_model", "car_model_year", "car_vin"];
   useEffect(() => {
-    const filteredCars = searchWord
+    /* const filteredCars = searchWord
       ? cars.filter((car) =>
           car.car.toLowerCase().includes(searchWord.toLowerCase())
+        )
+      : cars; */
+
+    /*  const filteredCars = searchWord
+      ? cars.filter((car) =>
+          Object.values(car).some((value) =>
+            String(value).toLowerCase().includes(searchWord.toLowerCase())
+          )
+        )
+      : cars; */
+
+    const filteredCars = searchWord
+      ? cars.filter((car) =>
+          searchProperties.some((property) =>
+            String(car[property])
+              .toLowerCase()
+              .includes(searchWord.toLowerCase())
+          )
         )
       : cars;
 
