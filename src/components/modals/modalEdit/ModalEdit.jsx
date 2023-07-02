@@ -43,7 +43,6 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
   const handlePriceChange = (event) => {
     const inputValue = event.target.value;
     const numericValue = inputValue.replace(/\D/g, "");
-    console.log(typeof numericValue);
     if (numericValue.length > 4) {
       const integerPart = numericValue.slice(0, 4);
       const decimalPart = numericValue.slice(4, 6);

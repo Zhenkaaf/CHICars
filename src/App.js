@@ -39,6 +39,11 @@ function App() {
     }
   };
 
+  //UpdateLocalStorageState
+  useEffect(() => {
+    localStorage.setItem("cars", JSON.stringify(cars));
+  }, [cars]);
+
   useEffect(() => {
     const storage = localStorage.getItem("cars");
     if (!storage) {
@@ -55,10 +60,6 @@ function App() {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-
-  /*   useEffect(() => {
-   
-  }, []); */
 
   //Modal Add Car
   const openModalAdd = () => {
@@ -81,7 +82,6 @@ function App() {
       return car;
     });
     setCars(updatedCars);
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
   };
 
   //Modal Delete Car
