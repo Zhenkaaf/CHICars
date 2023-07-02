@@ -1,5 +1,5 @@
-import { Pagination, Stack } from "@mui/material";
 import s from "./paginationComp.module.css";
+import { Pagination, Stack } from "@mui/material";
 import { useEffect } from "react";
 
 const PaginationComp = ({

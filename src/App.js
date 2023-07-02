@@ -39,11 +39,6 @@ function App() {
     }
   };
 
-  //UpdateLocalStorageState
-  useEffect(() => {
-    localStorage.setItem("cars", JSON.stringify(cars));
-  }, [cars]);
-
   useEffect(() => {
     const storage = localStorage.getItem("cars");
     if (!storage) {
@@ -70,6 +65,7 @@ function App() {
   };
   const addNewCar = (newCar) => {
     const updatedCars = [...cars, newCar];
+    localStorage.setItem("cars", JSON.stringify(updatedCars));
     setCars(updatedCars);
   };
 
@@ -81,13 +77,21 @@ function App() {
       }
       return car;
     });
+    localStorage.setItem("cars", JSON.stringify(updatedCars));
     setCars(updatedCars);
   };
 
   //Modal Delete Car
   const updateCars = (updatedCars) => {
+    localStorage.setItem("cars", JSON.stringify(updatedCars));
     setCars(updatedCars);
   };
+
+  //UpdateLocalStorageState
+  /* 
+    useEffect(() => {
+    localStorage.setItem("cars", JSON.stringify(cars));
+  }, [cars]); */
 
   return (
     <div className="App">
