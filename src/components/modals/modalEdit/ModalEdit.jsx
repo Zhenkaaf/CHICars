@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { binarySearch } from "../../../utils/binarySearch";
 import { convertPrice } from "../../../utils/convertPrice";
+import { filterKeys } from "../../../utils/filterKeys";
 
 const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
   /* const selectedCar = cars.find((car) => car.id === carId); */
@@ -13,14 +14,6 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
   const [availability, setAvailability] = useState(
     selectedCar?.availability || false
   );
-
-  const handleKeyDown = (event) => {
-    const pattern = /^[0-9\b]+$/;
-    const allowedKeys = ["Backspace"];
-    if (!pattern.test(event.key) && !allowedKeys.includes(event.key)) {
-      event.preventDefault();
-    }
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -93,7 +86,7 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
               type="text"
               id="price"
               value={price.replace(/^\$/, "")}
-              onKeyDown={handleKeyDown}
+              onKeyDown={filterKeys}
               onChange={(event) => setPrice(event.target.value)}
               required
             />

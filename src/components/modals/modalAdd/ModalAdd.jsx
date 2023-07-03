@@ -1,6 +1,8 @@
 import s from "./modalAdd.module.css";
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
+import { convertPrice } from "../../../utils/convertPrice";
+import { filterKeys } from "../../../utils/filterKeys.js";
 
 const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
   const formRef = useRef(null);
@@ -11,29 +13,14 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
     const formData = new FormData(formRef.current);
     const year = parseInt(formData.get("car_model_year"));
     const vin = formData.get("car_vin").toUpperCase();
-    const price = parseFloat(formData.get("price").replace(/[^\d.]/g, ""));
-    const priceStr = price.toString();
-    const formattedPrice =
-      priceStr.length > 4
-        ? `$${priceStr.slice(0, 4)}.${priceStr.slice(4, 6)}`
-        : `$${priceStr}`;
-    /*  let formattedPrice = "";
-    if (priceStr.length > 4) {
-      const integerPart = priceStr.slice(0, 4);
-      const decimalPart = priceStr.slice(4, 6);
-      formattedPrice = `$${integerPart}.${decimalPart}`;
-    } else {
-      formattedPrice = `$${priceStr}`;
-    } */
-
+    const price = formData.get("price");
+    const formattedPrice = convertPrice(price);
     const company =
       formData.get("car").charAt(0).toUpperCase() +
       formData.get("car").slice(1);
-
     const model =
       formData.get("car_model").charAt(0).toUpperCase() +
       formData.get("car_model").slice(1);
-
     const color =
       formData.get("car_color").charAt(0).toUpperCase() +
       formData.get("car_color").slice(1);
@@ -113,10 +100,11 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
           <div className={s.formGroup}>
             <label htmlFor="price">Price $:</label>
             <input
-              type="number"
+              type="text"
               id="price"
               name="price"
               required
+              onKeyDown={filterKeys}
             />
           </div>
           <div className={s.formGroup}>
