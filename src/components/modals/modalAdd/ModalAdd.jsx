@@ -1,13 +1,21 @@
 import s from "./modalAdd.module.css";
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
-import { convertPrice } from "../../../utils/convertPrice";
 import { filterKeys } from "../../../utils/filterKeys.js";
+import { processFormData } from "../../../utils/processFormDataModallAdd";
 
 const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
   const formRef = useRef(null);
 
   const handleSubmit = (event) => {
+    event.preventDefault();
+    const createdId = cars.length > 0 ? cars[cars.length - 1].id + 1 : 1;
+    const formData = new FormData(formRef.current);
+    const newCar = processFormData(formData, createdId);
+    addNewCar(newCar);
+    onClose();
+  };
+  /* const handleSubmit = (event) => {
     event.preventDefault();
     const createdId = cars.length > 0 ? cars[cars.length - 1].id + 1 : 1;
     const formData = new FormData(formRef.current);
@@ -35,7 +43,7 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
     newCar.availability = newCar.availability === "true";
     addNewCar(newCar);
     onClose();
-  };
+  }; */
 
   if (!isOpen) {
     return null;

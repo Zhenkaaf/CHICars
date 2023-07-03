@@ -1,4 +1,7 @@
 export const convertPrice = (price) => {
+  if (price.includes("$")) {
+    price = price.replace("$", "");
+  }
   let resultPriceValue;
   const priceWithoutDot = price.replace(/\./g, "");
   if (priceWithoutDot.length > 4) {

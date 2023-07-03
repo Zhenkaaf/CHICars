@@ -96,7 +96,7 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
             <select
               className={s.selectModal}
               id="availability"
-              value={availability ? "notAvailable" : "available"}
+              value={availability ? "available" : "notAvailable"}
               onChange={(event) =>
                 setAvailability(event.target.value === "available")
               }
