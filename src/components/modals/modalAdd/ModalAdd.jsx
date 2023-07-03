@@ -9,11 +9,8 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
     event.preventDefault();
     const createdId = cars.length > 0 ? cars[cars.length - 1].id + 1 : 1;
     const formData = new FormData(formRef.current);
-
     const year = parseInt(formData.get("car_model_year"));
-
     const vin = formData.get("car_vin").toUpperCase();
-
     const price = parseFloat(formData.get("price").replace(/[^\d.]/g, ""));
     const priceStr = price.toString();
     const formattedPrice =
@@ -114,7 +111,7 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
             />
           </div>
           <div className={s.formGroup}>
-            <label htmlFor="price">Price:</label>
+            <label htmlFor="price">Price $:</label>
             <input
               type="number"
               id="price"

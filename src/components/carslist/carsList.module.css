@@ -172,6 +172,7 @@
   .table {
     display: block;
   }
+
   .table__body {
     margin-top: 160px;
   }
@@ -180,11 +181,6 @@
     flex-wrap: nowrap;
   }
   .table__head {
-    /*  position: static;
-    top: 0px;
-    z-index: 2;
-    width: auto; */
-
     position: sticky;
     z-index: 0;
     width: auto;

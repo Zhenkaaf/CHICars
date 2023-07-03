@@ -3,7 +3,7 @@ import { useState } from "react";
 import ModalDelete from "../modals/modalDelete/ModalDelete";
 import ModalEdit from "../modals/modalEdit/ModalEdit";
 
-const Select = ({
+const SelectComp = ({
   carId,
   updateCarData,
   cars,
@@ -79,6 +79,8 @@ const Select = ({
         <option
           className={s.option}
           value=""
+          /*  disabled */
+          style={{ display: "none" }}
         >
           Actions
         </option>
@@ -98,4 +100,4 @@ const Select = ({
     </div>
   );
 };
-export default Select;
+export default SelectComp;

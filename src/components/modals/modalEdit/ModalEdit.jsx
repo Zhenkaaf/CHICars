@@ -1,67 +1,33 @@
 import s from "./modalEdit.module.css";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { binarySearch } from "../../../utils/binarySearch";
+import { convertPrice } from "../../../utils/convertPrice";
 
 const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
   /* const selectedCar = cars.find((car) => car.id === carId); */
-  const binarySearch = (arr, target) => {
-    let left = 0;
-    let right = arr.length - 1;
-
-    while (left <= right) {
-      const mid = Math.floor((left + right) / 2);
-
-      if (arr[mid].id === target) {
-        return arr[mid];
-      }
-
-      if (arr[mid].id < target) {
-        left = mid + 1;
-      } else {
-        right = mid - 1;
-      }
-    }
-    return null;
-  };
-
-  cars.sort((a, b) => a.id - b.id);
-
   const selectedCar = binarySearch(cars, carId);
 
-  const [color, setColor] = useState(selectedCar?.car_color || "");
-  const [price, setPrice] = useState(
-    selectedCar?.price?.trim().replace(/[^0-9.]/g, "") || ""
-  );
+  const [color, setColor] = useState(selectedCar?.car_color);
+  const [price, setPrice] = useState(selectedCar?.price);
   const [availability, setAvailability] = useState(
     selectedCar?.availability || false
   );
 
-  const handleColorChange = (event) => {
-    setColor(event.target.value);
-  };
-
-  const handlePriceChange = (event) => {
-    const inputValue = event.target.value;
-    const numericValue = inputValue.replace(/\D/g, "");
-    if (numericValue.length > 4) {
-      const integerPart = numericValue.slice(0, 4);
-      const decimalPart = numericValue.slice(4, 6);
-      const formattedValue = `${integerPart}.${decimalPart}`;
-      setPrice(formattedValue);
-    } else {
-      setPrice(numericValue);
+  const handleKeyDown = (event) => {
+    const pattern = /^[0-9\b]+$/;
+    const allowedKeys = ["Backspace"];
+    if (!pattern.test(event.key) && !allowedKeys.includes(event.key)) {
+      event.preventDefault();
     }
-  };
-
-  const handleAvailabilityChange = (event) => {
-    setAvailability(event.target.value === "available");
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     updateCarData(carId, {
       car_color: color,
-      price: `$${price}`,
+      price: convertPrice(price),
       availability,
     });
     onClose();
@@ -118,16 +84,17 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
               type="text"
               id="color"
               value={color}
-              onChange={handleColorChange}
+              onChange={(event) => setColor(event.target.value)}
             />
           </div>
           <div className={s.formGroup}>
-            <label htmlFor="price">Price:</label>
+            <label htmlFor="price">Price $:</label>
             <input
-              type="number"
+              type="text"
               id="price"
-              value={price}
-              onChange={handlePriceChange}
+              value={price.replace(/^\$/, "")}
+              onKeyDown={handleKeyDown}
+              onChange={(event) => setPrice(event.target.value)}
               required
             />
           </div>
@@ -136,8 +103,10 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
             <select
               className={s.selectModal}
               id="availability"
-              value={availability ? "available" : "notAvailable"}
-              onChange={handleAvailabilityChange}
+              value={availability ? "notAvailable" : "available"}
+              onChange={(event) =>
+                setAvailability(event.target.value === "available")
+              }
             >
               <option value="available">Available</option>
               <option value="notAvailable">Not Available</option>
