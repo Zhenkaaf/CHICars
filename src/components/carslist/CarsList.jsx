@@ -1,7 +1,7 @@
-import Select from "../select/Select";
 import s from "./carsList.module.css";
+import Select from "../select/Select";
 
-const CarsList = ({ currentPageCars, updateCarData, cars, updateCars }) => {
+const CarsList = ({ currentPageCars, updateCarData, cars, deleteCar }) => {
   return (
     <div className={s.table__container}>
       <div
@@ -43,7 +43,7 @@ const CarsList = ({ currentPageCars, updateCarData, cars, updateCars }) => {
                   carVin={car.car_vin}
                   updateCarData={updateCarData}
                   cars={cars}
-                  updateCars={updateCars}
+                  deleteCar={deleteCar}
                 />
               </div>
             </div>

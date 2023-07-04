@@ -7,7 +7,7 @@ const SelectComp = ({
   carId,
   updateCarData,
   cars,
-  updateCars,
+  deleteCar,
   carModel,
   carYear,
   carVin,
@@ -63,8 +63,7 @@ const SelectComp = ({
             isOpen={isOpenModalDelete}
             onClose={closeModalDelete}
             carId={carId}
-            cars={cars}
-            updateCars={updateCars}
+            deleteCar={deleteCar}
             carModel={carModel}
             carYear={carYear}
             carVin={carVin}
@@ -79,7 +78,6 @@ const SelectComp = ({
         <option
           className={s.option}
           value=""
-          /*  disabled */
           style={{ display: "none" }}
         >
           Actions

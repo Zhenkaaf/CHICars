@@ -6,18 +6,11 @@ const ModalDelete = ({
   isOpen,
   onClose,
   carId,
-  cars,
-  updateCars,
+  deleteCar,
   carModel,
   carYear,
   carVin,
 }) => {
-  const deleteCar = (carId) => {
-    const updatedCars = cars.filter((car) => car.id !== carId);
-    updateCars(updatedCars);
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
-  };
-
   const handleOk = () => {
     deleteCar(carId);
     onClose();

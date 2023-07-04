@@ -31,14 +31,6 @@ function App() {
     }
   }
 
-  //LocalStorageEventListener
-  const handleStorageChange = (event) => {
-    if (event.key === "cars") {
-      const updatedCars = JSON.parse(event.newValue) || [];
-      setCars(updatedCars);
-    }
-  };
-
   useEffect(() => {
     const storage = localStorage.getItem("cars");
     if (!storage) {
@@ -56,6 +48,14 @@ function App() {
     };
   }, []);
 
+  //LocalStorOtherTabsAndWindowsListener
+  const handleStorageChange = (event) => {
+    if (event.key === "cars") {
+      const updatedCars = JSON.parse(event.newValue) || [];
+      setCars(updatedCars);
+    }
+  };
+
   //Modal Add Car
   const openModalAdd = () => {
     setIsOpenModalAdd(true);
@@ -65,7 +65,6 @@ function App() {
   };
   const addNewCar = (newCar) => {
     const updatedCars = [...cars, newCar];
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
     setCars(updatedCars);
   };
 
@@ -77,21 +76,20 @@ function App() {
       }
       return car;
     });
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
     setCars(updatedCars);
   };
 
   //Modal Delete Car
-  const updateCars = (updatedCars) => {
-    localStorage.setItem("cars", JSON.stringify(updatedCars));
+  const deleteCar = (carId) => {
+    const updatedCars = cars.filter((car) => car.id !== carId);
     setCars(updatedCars);
   };
 
+  //Sequence of functions is important!!!
   //UpdateLocalStorageState
-  /* 
-    useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("cars", JSON.stringify(cars));
-  }, [cars]); */
+  }, [cars]);
 
   return (
     <div className="App">
@@ -140,7 +138,7 @@ function App() {
               currentPageCars={currentPageCars}
               updateCarData={updateCarData}
               cars={cars}
-              updateCars={updateCars}
+              deleteCar={deleteCar}
             />
           </div>
         </div>

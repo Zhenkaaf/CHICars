@@ -15,35 +15,6 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
     addNewCar(newCar);
     onClose();
   };
-  /* const handleSubmit = (event) => {
-    event.preventDefault();
-    const createdId = cars.length > 0 ? cars[cars.length - 1].id + 1 : 1;
-    const formData = new FormData(formRef.current);
-    const year = parseInt(formData.get("car_model_year"));
-    const vin = formData.get("car_vin").toUpperCase();
-    const price = formData.get("price");
-    const formattedPrice = convertPrice(price);
-    const company =
-      formData.get("car").charAt(0).toUpperCase() +
-      formData.get("car").slice(1);
-    const model =
-      formData.get("car_model").charAt(0).toUpperCase() +
-      formData.get("car_model").slice(1);
-    const color =
-      formData.get("car_color").charAt(0).toUpperCase() +
-      formData.get("car_color").slice(1);
-    const newCar = Object.fromEntries(formData.entries());
-    newCar.id = createdId;
-    newCar.car_model_year = year;
-    newCar.car_vin = vin;
-    newCar.price = formattedPrice;
-    newCar.car = company;
-    newCar.car_model = model;
-    newCar.car_color = color;
-    newCar.availability = newCar.availability === "true";
-    addNewCar(newCar);
-    onClose();
-  }; */
 
   if (!isOpen) {
     return null;
