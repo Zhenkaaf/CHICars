@@ -1,3 +1,16 @@
+Отриманий по API масив даних, зберігається в LocalStoradge за ключом "cars".
+
+При редагуванні (modalEdit) даних автомобіля для пошуку конкретного "car" використовується binary search,
+так як масив "cars" відсортований за "id".
+
+При додаванні нового "car" використовуємо "id" останнього елемента в масиві "cars" +1.
+Нова "car" додається до кінця масиву.
+
+Пошук здійснюється за такими полями: ["car", "car_model", "car_model_year", "car_vin"].
+
+Так як не було надано конкретних вимог для роботи з даними про ціну автомобіля (властивість "price").
+Значення властивості "price" конвертується у схожий формат, що надходить по API.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
