@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CHICars/static/css/main.5cae71fc.css",
-    "main.js": "/CHICars/static/js/main.61ef13b8.js",
+    "main.js": "/CHICars/static/js/main.f292f4bc.js",
     "static/js/787.28cb0dcd.chunk.js": "/CHICars/static/js/787.28cb0dcd.chunk.js",
     "index.html": "/CHICars/index.html",
     "main.5cae71fc.css.map": "/CHICars/static/css/main.5cae71fc.css.map",
-    "main.61ef13b8.js.map": "/CHICars/static/js/main.61ef13b8.js.map",
+    "main.f292f4bc.js.map": "/CHICars/static/js/main.f292f4bc.js.map",
     "787.28cb0dcd.chunk.js.map": "/CHICars/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5cae71fc.css",
-    "static/js/main.61ef13b8.js"
+    "static/js/main.f292f4bc.js"
   ]
 }
