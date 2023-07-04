@@ -87,6 +87,8 @@ const ModalEdit = ({ isOpen, onClose, carId, updateCarData, cars }) => {
               id="price"
               value={price.replace(/^\$/, "")}
               onKeyDown={filterKeys}
+              pattern="[0-9.]*"
+              title="Please enter digits only."
               onChange={(event) => setPrice(event.target.value)}
               required
             />

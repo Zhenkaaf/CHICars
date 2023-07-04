@@ -84,6 +84,8 @@ const ModalAdd = ({ isOpen, onClose, addNewCar, cars }) => {
               name="price"
               required
               onKeyDown={filterKeys}
+              pattern="[0-9]*"
+              title="Please enter digits only."
             />
           </div>
           <div className={s.formGroup}>
